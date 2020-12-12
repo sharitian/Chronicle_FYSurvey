@@ -2,7 +2,9 @@
 title: "Chronicle_FYSurvey"
 author: "Shari Tian"
 date: "12/12/2020"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -29,15 +31,66 @@ View(Survey_Responses)
 ```{r countED}
 Survey_Responses %>%
   count(ED) %>%
+  mutate(prop = n/sum(n)) %>%
+  kable()
+``` 
+
+```{r EDbar}
+ggplot(data = Survey_Responses, mapping = aes(x = "", fill = ED)) +
+  geom_bar(position = "fill") +
+  theme_minimal()+
+  labs(title = "Did you apply to Duke via the Early Decision Process?", x = "", y = "")
+  
+```
+```{r}
+gender <- table(Survey_Responses$ED, Survey_Responses$Gender)
+gender %>%
   kable()
 ```
 
-```{r EDbar}
-ggplot(data = Survey_Responses, mapping = aes(x = ED)) +
-  geom_bar() +
-  theme_minimal()+
-  labs(title = "Did you apply to Duke via the Early Decision Process?")
-  
+```{r}
+ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Gender)) +
+  geom_bar(position = "fill") + 
+  theme_minimal() +
+  labs(title = "Gender", x = "Did you apply to Duke via the Early Decision process?", y = "")
 ```
 
+
+```{r}
+sexuality <- table(Survey_Responses$ED, Survey_Responses$SexualOrientation)
+sexuality %>%
+  kable()
+```
+
+```{r}
+ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SexualOrientation)) +
+  geom_bar(position = "fill") + 
+  theme_minimal() +
+  labs(title = "Sexual Orientation", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Sexual Orientation")
+```
+
+```{r}
+race <- table(Survey_Responses$ED, Survey_Responses$Race)
+race %>%
+  kable()
+```
+
+```{r}
+ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Race)) +
+  geom_bar(position = "fill") + 
+  theme_minimal() +
+  labs(title = "Race/Ethnicity", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Race/Ethnicity")
+```
+```{r}
+trinityorpratt <- table(Survey_Responses$ED, Survey_Responses$TrinityOrPratt)
+trinityorpratt %>%
+  kable()
+```
+
+```{r}
+ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = TrinityOrPratt)) +
+  geom_bar(position = "fill") + 
+  theme_minimal() +
+  labs(title = "Trinity vs. Pratt", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Are you enrolled in Trinity or the Pratt?")
+```
 
