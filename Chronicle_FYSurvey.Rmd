@@ -13,12 +13,31 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(dplyr)
 library(readxl)
+library(knitr)
 ```
 
+## Data
 
 ```{r data}
 Survey_Responses <- read_excel("~/Survey Responses.xlsx", 
     sheet = "Sheet1")
 View(Survey_Responses)
 ```
+
+## EDA of ED vs. RD
+
+```{r countED}
+Survey_Responses %>%
+  count(ED) %>%
+  kable()
+```
+
+```{r EDbar}
+ggplot(data = Survey_Responses, mapping = aes(x = ED)) +
+  geom_bar() +
+  theme_minimal()+
+  labs(title = "Did you apply to Duke via the Early Decision Process?")
+  
+```
+
 
