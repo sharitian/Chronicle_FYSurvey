@@ -1,14 +1,16 @@
 ---
-title: "Chronicle_FYSurvey"
+title: "Chronicle First-Year Survey: ED vs. RD"
 author: "Shari Tian"
 date: "12/12/2020"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE)
 ```
 
 ```{r packages, message=FALSE, warning=FALSE}
@@ -32,6 +34,7 @@ View(Survey_Responses)
 
 #### Overall ED
 
+
 ```{r countED}
 Survey_Responses %>%
   count(ED) %>%
@@ -39,22 +42,9 @@ Survey_Responses %>%
   kable()
 ``` 
 
-```{r EDbar}
-ggplot(data = Survey_Responses, mapping = aes(x = "", fill = ED)) +
-  geom_bar(position = "fill") +
-  scale_fill_brewer(palette ="Paired") +
-  theme_minimal()+
-  labs(title = "Did you apply to Duke via the Early Decision Process?", x = "", y = "")
-  
-```
 
 #### Gender
 
-```{r}
-gender <- table(Survey_Responses$ED, Survey_Responses$Gender)
-gender %>%
-  kable()
-```
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Gender)) +
@@ -66,11 +56,6 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Gender)) +
 
 #### Sexual Orientation
 
-```{r}
-sexuality <- table(Survey_Responses$ED, Survey_Responses$SexualOrientation)
-sexuality %>%
-  kable()
-```
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SexualOrientation)) +
@@ -82,11 +67,6 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SexualOrientation))
 
 #### Race
 
-```{r}
-race <- table(Survey_Responses$ED, Survey_Responses$Race)
-race %>%
-  kable()
-```
 
 ```{r}
 Survey_Responses$Race <- factor(Survey_Responses$Race,levels = c("NA", "American Indian or Alaska Native", "Asian,Native Hawaiian or Pacific Islander", "Asian,Other", "Black or African American,Asian", "Black or African American,Other", "White,Black or African American,Asian", "Other", "White,American Indian or Alaska Native", "White,Other", "White,Asian", "White,Black or African American", "Black or African American", "Asian", "White"))
@@ -103,11 +83,6 @@ ggplot(data = Survey_Responses, mapping = aes(x = Race, fill = ED)) +
 
 #### Trinity or Pratt
 
-```{r}
-trinityorpratt <- table(Survey_Responses$ED, Survey_Responses$TrinityOrPratt)
-trinityorpratt %>%
-  kable()
-```
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = TrinityOrPratt)) +
@@ -119,6 +94,8 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = TrinityOrPratt)) +
 
 #### Major
 
+ED:
+
 ```{r}
 Survey_Responses %>%
   filter(ED == "Yes") %>%
@@ -127,6 +104,8 @@ Survey_Responses %>%
   arrange(desc(prop)) %>%
   kable()
 ```
+
+RD:
 
 ```{r}
 Survey_Responses %>%
@@ -141,6 +120,7 @@ Survey_Responses %>%
 
 #### Varsity athlete
 
+
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = VarsityAthlete)) +
   geom_bar(position = "fill") + 
@@ -151,6 +131,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = VarsityAthlete)) +
 
 
 #### International
+
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
@@ -167,6 +148,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
 
 #### Home community
 
+
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Community)) +
   geom_bar(position = "fill") + 
@@ -179,6 +161,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Community)) +
 ```
 
 #### Family annual income
+
 
 ```{r}
 Survey_Responses$FamilyAnnualIncome <- factor(Survey_Responses$FamilyAnnualIncome,levels = c("NA", "Below $40,000", "$40,000-$80,000", "$80,000-$125,000", "$125,000-$250,000", "$250,000-$500,000", "Above $500,000"))
@@ -210,6 +193,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = FamilyAnnualIncome)
 
 #### Financial aid
 
+
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = FinAid)) +
   geom_bar(position = "fill") + 
@@ -221,7 +205,8 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = FinAid)) +
 #ggsave("FinAid.png")
 ```
 
-#### Interest in greek life and slgs
+#### Interest in Greek life and SLGs
+
 
 ```{r}
 Survey_Responses$Greek <- factor(Survey_Responses$Greek,levels = c("Extremely interested", "Very interested", "Moderately interested", "Slightly interested", "Not interested at all"))
@@ -257,6 +242,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SLG)) +
 
 #### Type of secondary school
 
+
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SecondarySchoolType)) +
   geom_bar(position = "fill") +
@@ -270,6 +256,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SecondarySchoolType
 
 
 #### Number of colleges and universities applied to
+
 
 ```{r}
 EDYes <- 
@@ -306,6 +293,7 @@ ggplot(data = EDNo, mapping = aes(x = NumApps)) +
 
 
 #### Legacy
+
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
