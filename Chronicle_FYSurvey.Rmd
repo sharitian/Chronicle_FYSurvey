@@ -303,6 +303,6 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
   labs(title = "Legacy", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Did any of your parents or siblings attend Duke?")
 ```
 ```{r}
-ggsave("Legacy.png")
+#ggsave("Legacy.png")
 ```
 
