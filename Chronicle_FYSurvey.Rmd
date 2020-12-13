@@ -22,7 +22,7 @@ library(RColorBrewer)
 library(wesanderson)
 ```
 
-## Data
+## Data  
 
 ```{r data}
 Survey_Responses <- read_excel("~/Survey Responses.xlsx", 
@@ -30,9 +30,9 @@ Survey_Responses <- read_excel("~/Survey Responses.xlsx",
 View(Survey_Responses)
 ```
 
-## Basic Demographics EDA
+## Basic Demographics EDA  
 
-#### Overall ED
+#### Overall ED  
 
 
 ```{r countED}
@@ -43,8 +43,9 @@ Survey_Responses %>%
 ``` 
 
 
-#### Gender
+#### Gender and Sexual Orientation
 
+Gender and sexual orientation diversity seems to be more prominent among students who applied RD vs. ED.
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Gender)) +
@@ -53,8 +54,6 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Gender)) +
   theme_minimal() +
   labs(title = "Gender", x = "Did you apply to Duke via the Early Decision process?", y = "")
 ```
-
-#### Sexual Orientation
 
 
 ```{r}
@@ -83,16 +82,18 @@ ggplot(data = Survey_Responses, mapping = aes(x = Race, fill = ED)) +
 
 #### Trinity or Pratt
 
+A larger proportion of students who applied ED are in Trinity compared to those who applied RD. 
+
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = TrinityOrPratt)) +
   geom_bar(position = "fill") + 
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
-  labs(title = "Trinity vs. Pratt", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Are you enrolled in Trinity or the Pratt?")
+  labs(title = "Trinity vs. Pratt", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Are you in Trinity or Pratt?")
 ```
 
-#### Major
+#### Major  
 
 ED:
 
@@ -120,6 +121,8 @@ Survey_Responses %>%
 
 #### Varsity athlete
 
+No significant difference shown between ED and RD groups.
+
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = VarsityAthlete)) +
@@ -132,6 +135,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = VarsityAthlete)) +
 
 #### International
 
+A larger proportion of students who applied ED are international students compared to those who applied RD.
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
@@ -148,23 +152,30 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
 
 #### Home community
 
+A larger proportion of students who applied ED live in urban communities compared to those who applied RD.
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Community)) +
   geom_bar(position = "fill") + 
   scale_fill_brewer(palette ="RdYlBu") +
   theme_minimal() +
-  labs(title = "Home Community", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "What type of community are you from?")
+  labs(title = "Home Community", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "What community are you from?")
 ```
 ```{r}
 #ggsave("HomeCommunity.png")
 ```
 
+
 #### Family annual income
 
+A larger proportion of families of students who applied ED have an estimated annual income of above $250,000 compared to families of students who applied RD.
 
 ```{r}
-Survey_Responses$FamilyAnnualIncome <- factor(Survey_Responses$FamilyAnnualIncome,levels = c("NA", "Below $40,000", "$40,000-$80,000", "$80,000-$125,000", "$125,000-$250,000", "$250,000-$500,000", "Above $500,000"))
+Survey_Responses$FamilyAnnualIncome <- factor(
+  Survey_Responses$FamilyAnnualIncome,levels = c("NA", "Below $40,000", 
+                                                 "$40,000-$80,000", "$80,000-$125,000", 
+                                                 "$125,000-$250,000", "$250,000-$500,000", 
+                                                 "Above $500,000"))
 ```
 
 ```{r}
@@ -173,7 +184,8 @@ ggplot(data = Survey_Responses, mapping = aes(x = FamilyAnnualIncome, fill = ED)
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   coord_flip() +
-  labs(title = "Estimated Family Annual Income", x = "Estimated Family Annual Income", fill = "Did you apply to Duke via ED?")
+  labs(title = "Estimated Family Annual Income", x = "Estimated Family Annual Income", 
+       fill = "Did you apply to Duke via ED?")
 ```
 ```{r}
 #ggsave("FamilyIncome.png")
@@ -185,14 +197,18 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = FamilyAnnualIncome)
   geom_bar(position = "fill") + 
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
-  labs(title = "Estimated Family Annual Income", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Estimated Family Annual Income")
+  labs(title = "Estimated Family Annual Income",
+       x = "Did you apply to Duke via the Early Decision process?", 
+       y = "", fill = "Estimated Family Annual Income")
 ```
 ```{r}
 #ggsave("FamilyIncome2.png")
 ```
 
+
 #### Financial aid
 
+A larger proportion of students who applied RD receive financial aid from Duke compared to those who applied ED.
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = FinAid)) +
@@ -205,8 +221,10 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = FinAid)) +
 #ggsave("FinAid.png")
 ```
 
+
 #### Interest in Greek life and SLGs
 
+A larger proportion of students who applied ED are at least slightly interested in Greek life and SLGs compared to those who applied RD.
 
 ```{r}
 Survey_Responses$Greek <- factor(Survey_Responses$Greek,levels = c("Extremely interested", "Very interested", "Moderately interested", "Slightly interested", "Not interested at all"))
@@ -242,6 +260,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SLG)) +
 
 #### Type of secondary school
 
+A larger proportion of students who applied ED attended some sort of private school than those who applied RD.
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SecondarySchoolType)) +
@@ -257,11 +276,13 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SecondarySchoolType
 
 #### Number of colleges and universities applied to
 
+A 
 
 ```{r}
 EDYes <- 
   Survey_Responses %>%
   filter(ED == "Yes")
+
 ```
 
 ```{r}
@@ -269,6 +290,7 @@ EDNo <-
   Survey_Responses %>%
   filter(ED == "No")
 ```
+
 
 ```{r warning = FALSE}
 ggplot(data = EDYes, mapping = aes(x = NumApps)) +
@@ -294,6 +316,7 @@ ggplot(data = EDNo, mapping = aes(x = NumApps)) +
 
 #### Legacy
 
+A larger proportion of students who applied ED have parents or siblings who attended Duke compared to those who applied RD.
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
