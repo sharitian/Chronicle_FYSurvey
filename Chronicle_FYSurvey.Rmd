@@ -30,7 +30,7 @@ Survey_Responses <- read_excel("~/Survey Responses.xlsx",
 View(Survey_Responses)
 ```
 
-## Basic Demographics EDA  
+## EDA  
 
 #### Overall ED  
 
@@ -53,7 +53,7 @@ ggplot(data = Survey_Responses[!is.na(Survey_Responses$Gender),], mapping = aes(
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Gender", x = "Did you apply to Duke via the Early Decision process?", y = "")
+  labs(x = "Did you apply via the Early Decision process?", y = "")
 ```
 
 
@@ -63,7 +63,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SexualOrientation))
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Sexual Orientation", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Sexual Orientation")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Sexual Orientation")
 ```
 
 #### Race
@@ -87,16 +87,7 @@ Survey_Responses[!is.na(Survey_Responses$Race),] %>%
   theme_minimal() +
   coord_flip() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Race/Ethnicity", x = "Race/Ethnicity", y = "", fill = "Did you apply ED?")
-```
-
-```{r eval = FALSE}
-ggplot(data = Survey_Responses[!is.na(Survey_Responses$Race),], mapping = aes(x = Race, fill = ED)) +
-  geom_bar(position = "dodge", na.rm = T) + 
-  scale_fill_brewer(palette ="Paired") +
-  theme_minimal() +
-  coord_flip() +
-  labs(title = "Race/Ethnicity", x = "Race/Ethnicity", fill = "Did you apply ED?")
+  labs(x = "Race/Ethnicity", y = "", fill = "Did you apply ED?")
 ```
 
 ```{r}
@@ -110,7 +101,7 @@ ggplot(data = Survey_Responses[!is.na(Survey_Responses$Race),], mapping = aes(x 
                 "darkolivegreen1" ,"tan2" , "tomato3" , "#7CE3D8","gainsboro")) +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Race/Ethnicity", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Race")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Race")
 ```
 
 #### Trinity or Pratt
@@ -124,12 +115,12 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = TrinityOrPratt)) +
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Trinity vs. Pratt", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Are you in Trinity or Pratt?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Are you in Trinity or Pratt?")
 ```
 
 #### Major  
 
-ED:
+##### ED:
 
 ```{r}
 Survey_Responses %>%
@@ -140,7 +131,7 @@ Survey_Responses %>%
   kable()
 ```
 
-RD:
+##### RD:
 
 ```{r}
 Survey_Responses %>%
@@ -151,24 +142,9 @@ Survey_Responses %>%
   kable()
 ```
 
-## EDA specific to Early vs. Regular Decision
-
-#### Varsity athlete
-
-No significant difference shown between ED and RD groups.
 
 
-```{r}
-ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = VarsityAthlete)) +
-  geom_bar(position = "fill") + 
-  scale_fill_brewer(palette ="Paired") +
-  theme_minimal() +
-  scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Varsity Athlete", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Are you a recruited varsity athlete?")
-```
-
-
-#### International
+#### International Students
 
 A larger proportion of students who applied ED are international students compared to those who applied RD.
 
@@ -178,7 +154,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "International Student", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Are you an international student?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Are you an international student?")
 ```
 
 ```{r}
@@ -196,7 +172,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Community)) +
   scale_fill_brewer(palette ="RdYlBu") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Home Community", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "What community are you from?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "What community are you from?")
 ```
 ```{r}
 #ggsave("HomeCommunity.png")
@@ -228,18 +204,9 @@ Survey_Responses[!is.na(Survey_Responses$FamilyAnnualIncome),] %>%
   theme_minimal() +
   coord_flip() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Estimated Family Annual Income", x = "Estimated Family Annual Income", y = "", fill = "Did you apply ED?")
+  labs(x = "Estimated Family Annual Income", y = "", fill = "Did you apply ED?")
 ```
 
-```{r eval = FALSE}
-ggplot(data = Survey_Responses[!is.na(Survey_Responses$FamilyAnnualIncome),], mapping = aes(x = FamilyAnnualIncome, fill = ED)) +
-  geom_bar(position = "dodge", na.rm = T) + 
-  scale_fill_brewer(palette ="Paired") +
-  theme_minimal() +
-  coord_flip() +
-  labs(title = "Estimated Family Annual Income", x = "Estimated Family Annual Income", 
-       fill = "Did you apply to Duke via ED?")
-```
 ```{r}
 #ggsave("FamilyIncome.png")
 ```
@@ -251,9 +218,7 @@ ggplot(data = Survey_Responses[!is.na(Survey_Responses$FamilyAnnualIncome),], ma
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Estimated Family Annual Income",
-       x = "Did you apply to Duke via the Early Decision process?", 
-       y = "", fill = "Estimated Family Annual Income")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Estimated Family Annual Income")
 ```
 ```{r}
 #ggsave("FamilyIncome2.png")
@@ -270,7 +235,7 @@ ggplot(data = Survey_Responses[!is.na(Survey_Responses$FinAid),], mapping = aes(
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Financial Aid", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Do you receive financial aid from Duke?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Do you receive financial aid from Duke?")
 ```
 ```{r}
 #ggsave("FinAid.png")
@@ -295,7 +260,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Greek)) +
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Interest in Greek Life", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "How interested are you in Greek life at Duke?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "How interested are you in Greek life at Duke?")
 ```
 ```{r}
 #ggsave("Greek.png")
@@ -308,7 +273,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SLG)) +
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Interest in SLG Life", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "How interested are you in SLG life at Duke?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "How interested are you in SLG life at Duke?")
 ```
 ```{r}
 #ggsave("SLG.png")
@@ -325,50 +290,10 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SecondarySchoolType
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Type of Secondary School Attended", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "What type of secondary school did you attend?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "What type of secondary school did you attend?")
 ```
 ```{r}
 #ggsave("SecondarySchool.png")
-```
-
-
-#### Number of colleges and universities applied to
-
-A 
-
-```{r}
-EDYes <- 
-  Survey_Responses %>%
-  filter(ED == "Yes")
-
-```
-
-```{r}
-EDNo <- 
-  Survey_Responses %>%
-  filter(ED == "No")
-```
-
-
-```{r warning = FALSE}
-ggplot(data = EDYes, mapping = aes(x = NumApps)) +
-  geom_histogram(binwidth = 1, fill = "#6699ff", color = "black") + 
-  theme_minimal() +
-  labs(title = "Number of Colleges/Universities Applied to Among ED Students", x = "Number of Colleges/Universities Applied to")
-```
-```{r}
-#ggsave("EDNumApplied.png")
-```
-
-
-```{r warning = FALSE}
-ggplot(data = EDNo, mapping = aes(x = NumApps)) +
-  geom_histogram(binwidth = 1, fill = "#6699ff", color = "black") + 
-  theme_minimal() +
-  labs(title = "Number of Colleges/Universities Applied to Among RD Students", x = "Number of Colleges/Universities Applied to")
-```
-```{r}
-#ggsave("RDNumApplied.png")
 ```
 
 
@@ -382,7 +307,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
   scale_fill_brewer(palette = "Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(title = "Legacy", x = "Did you apply to Duke via the Early Decision process?", y = "", fill = "Did any of your parents or siblings attend Duke?")
+  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Did any of your parents or siblings attend Duke?")
 ```
 
 
@@ -390,3 +315,47 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
 #ggsave("Legacy.png")
 ```
 
+
+
+
+
+
+
+
+
+```{r eval = FALSE}
+ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = VarsityAthlete)) +
+  geom_bar(position = "fill") + 
+  scale_fill_brewer(palette ="Paired") +
+  theme_minimal() +
+  scale_y_continuous(labels=scales::percent_format()) +
+  labs(title = "Varsity Athlete", x = "Did you apply via the Early Decision process?", y = "", fill = "Are you a recruited varsity athlete?")
+```
+
+```{r eval = FALSE}
+EDYes <- 
+  Survey_Responses %>%
+  filter(ED == "Yes")
+
+```
+
+```{r eval = FALSE}
+EDNo <- 
+  Survey_Responses %>%
+  filter(ED == "No")
+```
+
+
+```{r warning = FALSE, eval = FALSE}
+ggplot(data = EDYes, mapping = aes(x = NumApps)) +
+  geom_histogram(binwidth = 1, fill = "#6699ff", color = "black") + 
+  theme_minimal() +
+  labs(title = "Number of Colleges/Universities Applied to Among ED Students", x = "Number of Colleges/Universities Applied to")
+```
+
+```{r warning = FALSE, eval = FALSE}
+ggplot(data = EDNo, mapping = aes(x = NumApps)) +
+  geom_histogram(binwidth = 1, fill = "#6699ff", color = "black") + 
+  theme_minimal() +
+  labs(title = "Number of Colleges/Universities Applied to Among RD Students", x = "Number of Colleges/Universities Applied to")
+```
