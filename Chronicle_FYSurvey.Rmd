@@ -45,7 +45,7 @@ Survey_Responses %>%
 
 #### Gender and Sexual Orientation
 
-There appears to be more gender and sexual orientation diversity among students who applied RD vs. ED.
+\  
 
 ```{r}
 ggplot(data = Survey_Responses[!is.na(Survey_Responses$Gender),], mapping = aes(x = ED, fill = Gender)) +
@@ -53,7 +53,7 @@ ggplot(data = Survey_Responses[!is.na(Survey_Responses$Gender),], mapping = aes(
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "")
+  labs(title = "Gender identities are spread more evenly among \n regular decision applicants", x = "Race/Ethnicity", x = "Did you apply via the Early Decision process?", y = "")
 ```
 
 
@@ -63,16 +63,14 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SexualOrientation))
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Sexual Orientation")
+  labs(title ="Sexual orientations are spread more evenly among \n regular decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "Sexual Orientation")
 ```
+
+There appears to be more gender and sexual orientation diversity among students who applied RD versus those who applied ED. The distribution among students who applied ED is more focused around one or two gender or sexual identities, whereas these proportions are more spread out across more identities in the the distribution among students who applied RD.
 
 #### Race
 
-There appears to be more racial diversity among students who applied RD vs. those who applied ED.
-
-```{r}
-Survey_Responses$Race <- factor(Survey_Responses$Race,levels = c("NA", "American Indian or Alaska Native", "Asian,Native Hawaiian or Pacific Islander", "Asian,Other", "Black or African American,Asian", "Black or African American,Other", "White,Black or African American,Asian", "Other", "White,American Indian or Alaska Native", "White,Other", "White,Asian", "White,Black or African American", "Black or African American", "Asian", "White"))
-```
+\  
 
 
 ```{r}
@@ -82,31 +80,34 @@ Survey_Responses[!is.na(Survey_Responses$Race),] %>%
   group_by(ED) %>% #group just by the fill variable
   mutate(y = n/sum(n)) %>% #percent of each ED n per Race group
   ggplot()+
-  geom_col(aes(y=y, x = Race, fill = as.factor(ED)), position="dodge")+
+  geom_col(aes(y=y, x = reorder(Race, y), fill = as.factor(ED)), position="dodge")+
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   coord_flip() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Race/Ethnicity", y = "", fill = "Did you apply ED?")
+  labs(title ="Racial identities are spread more evenly \n among regular decision applicants", x = "Race/Ethnicity", y = "", fill = "Did you apply ED?")
 ```
 
 ```{r}
 ggplot(data = Survey_Responses[!is.na(Survey_Responses$Race),], mapping = aes(x = ED, fill = Race)) +
   geom_bar(position = "fill") +
-  scale_fill_manual(values = c('black','forestgreen', 'red2', 'orange', 'cornflowerblue', 
-                'magenta', 'darkolivegreen4', 'indianred1', 'tan4', 'darkblue', 
-                'mediumorchid1','firebrick4',  'yellowgreen', 'lightsalmon', 'tan3',
-                "tan1",'darkgray', 'wheat4', '#DDAD4B', 'chartreuse', 
+  scale_fill_manual(values = c('snow4','mediumaquamarine', 'deeppink3', 'orange', 'cornflowerblue', 
+                'plum1', 'cyan3', 'indianred1', 'khaki', 'deepskyblue4', 
+                'lightcyan2','darkgoldenrod',  'yellowgreen', 'lightsalmon', 'tan3',
+                "tan1", 'wheat4', '#DDAD4B', 'chartreuse', 
                 'seagreen1', 'moccasin', 'mediumvioletred', 'seagreen','cadetblue1',
                 "darkolivegreen1" ,"tan2" , "tomato3" , "#7CE3D8","gainsboro")) +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Race")
+  labs(title ="Racial identities are spread more evenly \n among regular decision applicants", x = "Race/Ethnicity", x = "Did you apply via the Early Decision process?", y = "", fill = "Race")
 ```
+
+Similar to the gender and sexual orientation trends, there appears to be more racial diversity among students who applied RD versus those who applied ED as well. Approximately 84% of students who applied ED identified as White or Asian, whereas that proportion lowered to around 79% for students who applied RD. Consequently, there is a significant increase in the proportion of multiracial students among those who applied RD.
+
 
 #### Trinity or Pratt
 
-A larger proportion of students who applied ED are in Trinity compared to those who applied RD. 
+\  
 
 
 ```{r}
@@ -115,38 +116,66 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = TrinityOrPratt)) +
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Are you in Trinity or Pratt?")
+  labs(title = "The proportion of students in Trinity is greater \n for early decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "Are you in Trinity or Pratt?")
 ```
 
+ED applicants have a larger proportion of students in Trinity compared to RD applicants. 
+
+
 #### Major  
+
+\  
+
+ 
+```{r}
+Survey_Responses[!is.na(Survey_Responses$Major),] %>%
+  group_by(ED, Major) %>% #group by both variables
+  summarise(n = n()) %>% #count members per group
+  group_by(ED) %>% #group just by the fill variable
+  mutate(y = n/sum(n)) %>% #percent of each ED n per Race group
+  ggplot()+
+  geom_col(aes(y=y, x = reorder(Major, y), fill = as.factor(ED)), position="dodge")+
+  scale_fill_brewer(palette ="Paired") +
+  xlim("Chemistry", "Psychology", "Mechanical Engineering", "Public Policy Studies", "Electrical and Computer Engineering", "Neuroscience", "Economics", "Biomedical Engineering", "Computer Science", "Biology") +
+  theme_minimal() +
+  coord_flip() +
+  scale_y_continuous(labels=scales::percent_format()) +
+  labs(title = "Most popular majors among early and \n regular decision applicants", x = "Major", y = "", fill = "Did you apply ED?")
+```
 
 ##### ED:
 
 ```{r}
-Survey_Responses %>%
+Survey_Responses[!is.na(Survey_Responses$Major),] %>%
   filter(ED == "Yes") %>%
   count(Major) %>%
   mutate(prop = n/sum(n)) %>%
   arrange(desc(prop)) %>%
+  slice(1:10) %>%
   kable()
 ```
 
 ##### RD:
 
 ```{r}
-Survey_Responses %>%
+Survey_Responses[!is.na(Survey_Responses$Major),] %>%
   filter(ED == "No") %>%
   count(Major) %>%
   mutate(prop = n/sum(n)) %>%
   arrange(desc(prop)) %>%
+  slice(1:10) %>%
   kable()
 ```
 
 
-
+For both groups, both biology and computer science are considered to be top major choices. However, BME, psychology, and public policy are significantly favored more by ED applicants, whereas neuroscience, ECE, chemistry, and mechanical engineering are significantly favored more by RD applicants. 
+ 
+ 
+ 
 #### International Students
 
-A larger proportion of students who applied ED are international students compared to those who applied RD.
+\  
+
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
@@ -154,7 +183,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Are you an international student?")
+  labs(title = "The proportion of international students is \n greater for early decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "Are you an international student?")
 ```
 
 ```{r}
@@ -162,9 +191,13 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = International)) +
 ```
 
 
+ED applicants have a larger proportion of international students compared to RD applicants.
+
+
 #### Home community
 
-A larger proportion of students who applied ED live in urban communities compared to those who applied RD.
+\  
+
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Community)) +
@@ -172,16 +205,20 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Community)) +
   scale_fill_brewer(palette ="RdYlBu") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "What community are you from?")
+  labs(title = "The proportion of urban home communities is \n greater for early decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "What community are you from?")
 ```
 ```{r}
 #ggsave("HomeCommunity.png")
 ```
 
 
+ED applicants have a larger proportion of students in urban home communities compared to RD applicants. Consequently, RD applicants have arger proportions of students who live in rural and suburban home communities compared to ED applicants.
+
+
 #### Family annual income
 
-A larger proportion of families of students who applied ED have an estimated annual income of above $250,000 compared to families of students who applied RD.
+\  
+
 
 ```{r}
 Survey_Responses$FamilyAnnualIncome <- factor(
@@ -204,7 +241,7 @@ Survey_Responses[!is.na(Survey_Responses$FamilyAnnualIncome),] %>%
   theme_minimal() +
   coord_flip() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Estimated Family Annual Income", y = "", fill = "Did you apply ED?")
+  labs(title = "Families of early decision applicants have on \n average higher estimated annual incomes", x = "Estimated Family Annual Income", y = "", fill = "Did you apply ED?")
 ```
 
 ```{r}
@@ -218,16 +255,20 @@ ggplot(data = Survey_Responses[!is.na(Survey_Responses$FamilyAnnualIncome),], ma
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Estimated Family Annual Income")
+  labs(title = "Families of early decision applicants have on \n average higher estimated annual incomes", x = "Did you apply via the Early Decision process?", y = "", fill = "Estimated Family Annual Income")
 ```
 ```{r}
 #ggsave("FamilyIncome2.png")
 ```
 
 
+Families of ED applicants have on average higher estimated annual incomes than families of RD applicants. ED applicants have a larger proportion of families with estimated annual incomes above 250,000 dollars, whereas RD applicants have a larger proportion of families with estimated incomes between 80,000 and 250,000 dollars. Both ED and RD applicants have roughly the same proportion of families with estimated annual incomes below 80,000 dollars.
+
+
 #### Financial aid
 
-A larger proportion of students who applied RD receive financial aid from Duke compared to those who applied ED.
+\  
+
 
 ```{r}
 ggplot(data = Survey_Responses[!is.na(Survey_Responses$FinAid),], mapping = aes(x = ED, fill = FinAid)) +
@@ -235,16 +276,20 @@ ggplot(data = Survey_Responses[!is.na(Survey_Responses$FinAid),], mapping = aes(
   scale_fill_brewer(palette ="Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Do you receive financial aid from Duke?")
+  labs(title = "The proportion of students who receive financial aid \n from Duke is higher for regular decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "Do you receive financial aid from Duke?")
 ```
 ```{r}
 #ggsave("FinAid.png")
 ```
 
 
+RD applicants have a larger proportion of students who receive financial aid from Duke compared to ED applicants. This is likely a consequence of the trends seen with the estimated family annual income among these groups. 
+
+
 #### Interest in Greek life and SLGs
 
-A larger proportion of students who applied ED are at least slightly interested in Greek life and SLGs compared to those who applied RD.
+\  
+
 
 ```{r}
 Survey_Responses$Greek <- factor(Survey_Responses$Greek,levels = c("Extremely interested", "Very interested", "Moderately interested", "Slightly interested", "Not interested at all"))
@@ -260,7 +305,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Greek)) +
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "How interested are you in Greek life at Duke?")
+  labs(title = "The proportion of students interested in Greek life \n is higher for early decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "How interested are you in Greek life at Duke?")
 ```
 ```{r}
 #ggsave("Greek.png")
@@ -273,16 +318,19 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SLG)) +
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "How interested are you in SLG life at Duke?")
+  labs(title = "The proportion of students interested in SLG life \n is higher for early decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "How interested are you in SLG life at Duke?")
 ```
 ```{r}
 #ggsave("SLG.png")
 ```
 
 
+ED applicants have a larger proportion of students who are at least slightly interested in Greek life and SLGs compared to RD applicants. For both ED and RD applicants, students seem to be overall more interested SLG life than Greek life.
+
+
 #### Type of secondary school
 
-A larger proportion of students who applied ED attended some sort of private school than those who applied RD.
+\  
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SecondarySchoolType)) +
@@ -290,16 +338,20 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = SecondarySchoolType
   scale_fill_brewer(palette ="Set2") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "What type of secondary school did you attend?")
+  labs(title = "The proportion of students who attended private \n schools is higher for early decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "What type of secondary school did you attend?")
 ```
 ```{r}
 #ggsave("SecondarySchool.png")
 ```
 
 
+ED applicants have a larger proportion of students who attended non-denominational private schools than RD applicants. This could be a reflection of the trends seen with the estimated family annual income among both groups. 
+
+
 #### Legacy
 
-A larger proportion of students who applied ED have parents or siblings who attended Duke compared to those who applied RD.
+\  
+
 
 ```{r}
 ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
@@ -307,7 +359,7 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
   scale_fill_brewer(palette = "Paired") +
   theme_minimal() +
   scale_y_continuous(labels=scales::percent_format()) +
-  labs(x = "Did you apply via the Early Decision process?", y = "", fill = "Did any of your parents or siblings attend Duke?")
+  labs(title = "Legacy is more prominent within families \n of early decision applicants", x = "Did you apply via the Early Decision process?", y = "", fill = "Did any of your parents or siblings attend Duke?")
 ```
 
 
@@ -316,8 +368,16 @@ ggplot(data = Survey_Responses, mapping = aes(x = ED, fill = Legacy)) +
 ```
 
 
+ED applicants have a larger proportion of students who have parents or siblings who also attended Duke compared to RD applicants.
 
+\  
+\  
 
+Potential Themes: \  
+* Gender, sexual, racial, political identities \  
+* Economic background \  
+* Greek life and selective living \  
+* Likelihood to abide by COVID-19 policies \  
 
 
 
